@@ -1,13 +1,14 @@
 import React from 'react'
 import { CopyBlock, atomOneLight } from 'react-code-blocks'
 
-export default function CodeBlock({text}) {
+export default function CodeBlock({ text }) {
 	return (
-		<div className='mt-6 mb-6'>
+		<div className='mt-6 mb-6 font-bold text-lg'>
 			<CopyBlock
 				text={text}
-				language='python'
+				language='text'
 				theme={atomOneLight}
+
 			/>
 		</div>
 	)
