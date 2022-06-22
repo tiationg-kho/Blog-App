@@ -1,21 +1,19 @@
 import React from 'react'
+import { useRouter } from "next/router"
 import moment from 'moment'
 import CodeBlock from './CodeBlock'
-import { useRouter } from 'next/router'
 
 import Share from './Share'
 
-
-const PostDetail = ({ post }) => {
-  const router = useRouter()
-  const path = router.pathname
-  console.log(path)
+const PostDetail = ({ post, slug }) => {
+	const router = useRouter();
+  const query = router.asPath;
 
 	const getContentFragment = (index, text, obj, type) => {
 		let modifiedText = text
-    
+
 		if (obj) {
-      if (obj.code) {
+			if (obj.code) {
 				modifiedText = <CodeBlock key={index} text={text}></CodeBlock>
 			}
 
@@ -30,7 +28,6 @@ const PostDetail = ({ post }) => {
 			if (obj.underline) {
 				modifiedText = <u key={index}>{text}</u>
 			}
-
 		}
 
 		switch (type) {
@@ -72,7 +69,7 @@ const PostDetail = ({ post }) => {
 				return modifiedText
 		}
 	}
-  
+
 	return (
 		<>
 			<div className='bg-white shadow-lg rounded-lg lg:p-8 pb-12 mb-8'>
@@ -125,10 +122,10 @@ const PostDetail = ({ post }) => {
 						return getContentFragment(index, children, typeObj, typeObj.type)
 					})}
 				</div>
-        <div className='flex justify-end mr-3'>
-          <p className='mr-2 mt-1'>分享到</p>
-          <Share path={path}/>
-        </div>
+				<div className='flex justify-end mr-3'>
+					<p className='mr-2 mt-1'>分享到</p>
+					<Share path={query} />
+				</div>
 			</div>
 		</>
 	)
