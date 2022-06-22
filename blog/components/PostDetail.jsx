@@ -1,74 +1,76 @@
 import React from 'react'
-import { useRouter } from "next/router"
+import { useRouter } from 'next/router'
 import moment from 'moment'
-import CodeBlock from './CodeBlock'
+import { RichText } from '@graphcms/rich-text-react-renderer'
 
+import CodeBlock from './CodeBlock'
 import Share from './Share'
 
 const PostDetail = ({ post, slug }) => {
-	const router = useRouter();
-  const query = router.asPath;
+	const router = useRouter()
+	const query = router.asPath
 
-	const getContentFragment = (index, text, obj, type) => {
-		let modifiedText = text
+	// const getContentFragment = (index, text, obj, type) => {
+	// 	let modifiedText = text
 
-		if (obj) {
-			if (obj.code) {
-				modifiedText = <CodeBlock key={index} text={text}></CodeBlock>
-			}
+	// 	if (obj) {
+	// 		if (obj.code) {
+	// 			modifiedText = <CodeBlock key={index} text={text}></CodeBlock>
+	// 		}
 
-			if (obj.bold) {
-				modifiedText = <b key={index}>{text}</b>
-			}
+	// 		else if (obj.bold) {
+	// 			modifiedText = <b key={index}>{text}</b>
+	// 		}
 
-			if (obj.italic) {
-				modifiedText = <em key={index}>{text}</em>
-			}
+	// 		else if (obj.italic) {
+	// 			modifiedText = <em key={index}>{text}</em>
+	// 		}
 
-			if (obj.underline) {
-				modifiedText = <u key={index}>{text}</u>
-			}
-		}
+	// 		else if (obj.underline) {
+	// 			modifiedText = <u key={index}>{text}</u>
+	// 		}
 
-		switch (type) {
-			case 'heading-three':
-				return (
-					<h3 key={index} className='text-xl font-semibold mb-4'>
-						{modifiedText.map((item, i) => (
-							<React.Fragment key={i}>{item}</React.Fragment>
-						))}
-					</h3>
-				)
-			case 'paragraph':
-				return (
-					<div key={index} className='mb-8'>
-						{modifiedText.map((item, i) => (
-							<React.Fragment key={i}>{item}</React.Fragment>
-						))}
-					</div>
-				)
-			case 'heading-four':
-				return (
-					<h4 key={index} className='text-md font-semibold mb-4'>
-						{modifiedText.map((item, i) => (
-							<React.Fragment key={i}>{item}</React.Fragment>
-						))}
-					</h4>
-				)
-			case 'image':
-				return (
-					<img
-						key={index}
-						alt={obj.title}
-						height={obj.height}
-						width={obj.width}
-						src={obj.src}
-					/>
-				)
-			default:
-				return modifiedText
-		}
-	}
+	// 	}
+
+	// 	switch (type) {
+	// 		case 'heading-three':
+	// 			return (
+	// 				<h3 key={index} className='text-xl font-semibold mb-4'>
+	// 					{modifiedText.map((item, i) => (
+	// 						<React.Fragment key={i}>{item}</React.Fragment>
+	// 					))}
+	// 				</h3>
+	// 			)
+	// 		case 'paragraph':
+	// 			return (
+	// 				<div key={index} className='mb-8'>
+	// 					{modifiedText.map((item, i) => (
+	// 						<React.Fragment key={i}>{item}</React.Fragment>
+	// 					))}
+	// 				</div>
+	// 			)
+	// 		case 'heading-four':
+	// 			return (
+	// 				<h4 key={index} className='text-md font-semibold mb-4'>
+	// 					{modifiedText.map((item, i) => (
+	// 						<React.Fragment key={i}>{item}</React.Fragment>
+	// 					))}
+	// 				</h4>
+	// 			)
+	// 		case 'image':
+	// 			return (
+	// 				<img
+	// 					key={index}
+	// 					alt={obj.title}
+	// 					height={obj.height}
+	// 					width={obj.width}
+	// 					src={obj.src}
+	// 				/>
+	// 			)
+	// 		default:
+	// 			return modifiedText
+	// 	}
+	// }
 
 	return (
 		<>
@@ -115,12 +117,21 @@ const PostDetail = ({ post, slug }) => {
 						</div>
 					</div>
 					<h1 className='mb-8 text-3xl font-semibold'>{post.title}</h1>
-					{post.content.raw.children.map((typeObj, index) => {
-						const children = typeObj.children.map((item, itemindex) =>
-							getContentFragment(itemindex, item.text, item)
-						)
-						return getContentFragment(index, children, typeObj, typeObj.type)
-					})}
+					{
+						<div>
+							<RichText
+								content={post.content.raw.children}
+								renderers={{
+									p: ({ children }) => (
+										<div className='mt-4 mb-4'>{children}</div>
+									),
+									code:({ children }) => (
+										<CodeBlock text={children}></CodeBlock>
+									),
+								}}
+							/>
+						</div>
+					}
 				</div>
 				<div className='flex justify-end mr-3'>
 					<p className='mr-2 mt-1'>分享到</p>
