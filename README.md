@@ -1,5 +1,3 @@
-# Please Visit Here: https://bradou.vercel.app
-
 # Preivew:
 <img width="600" alt="Screen Shot 2022-06-28 at 13 52 03" src="https://user-images.githubusercontent.com/69543583/176285734-5296ae39-ef5a-40f0-a5a0-ba9686cc1842.png">
 
